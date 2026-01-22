@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LMAX Multi-Asset Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body { font-family: sans-serif; background-color: #1e1e1e; color: white; padding: 20px; }
+        .ticker-box {
+            background: #333;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 24px;
+            border-left: 5px solid #00ff00;
+        }
+    </style>
+</head>
+<body>
+<h1>Live Market Data (Averages)</h1>
+<div id="ticker-container">
+</div>
+
+<script type="text/javascript">
+    var socket = new SockJS('/ws-random');
+    var stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+
+        stompClient.subscribe('/topic/numbers', function (message) {
+            var text = message.body;
+            var symbol = text.split(":")[0]; // Grab just "ETHUSDT"
+
+            var box = document.getElementById(symbol);
+
+            if (!box) {
+                var container = document.getElementById("ticker-container");
+                box = document.createElement("div");
+                box.id = symbol;
+                box.className = "ticker-box";
+                container.appendChild(box);
+            }
+
+            box.innerHTML = text.replace(":", " (Moving Average of last 100 entries):");
+
+            box.style.backgroundColor = "#444";
+            setTimeout(() => box.style.backgroundColor = "#333", 100);
+        });
+    });
+</script>
+</body>
+</html>
