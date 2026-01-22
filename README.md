@@ -47,12 +47,12 @@ Instead of using standard Java `Lists` or `Streams` which create garbage and req
 
 Below are instructions on how to launch and run this application.
 
-## How to Run
+## ✅ How to Run
 ### Clone the repo:
 
 ```bash
-git clone [https://github.com/YOUR_USERNAME/demo.git](https://github.com/YOUR_USERNAME/demo.git)
-cd demo
+git clone https://github.com/EmilMed/Binance-Tracker-Ring-Buffer-.git
+cd Binance-Tracker-Ring-Buffer-
 ```
 
 ### Run the App:
